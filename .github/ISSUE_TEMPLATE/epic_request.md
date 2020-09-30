@@ -3,7 +3,7 @@ name: Epic Request
 about: Suggest a use case for this project
 title: ''
 labels: 'Epic'
-assignees: ''
+assignees: 'namitms'
 
 ---
 
