@@ -2,19 +2,19 @@
 name: Epic Request
 about: Suggest a use case for this project
 title: ''
-labels: ''
+labels: 'Epic'
 assignees: ''
 
 ---
 
 **We believe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+Describe the proposed change
 
 **Will result in**
-A clear and concise description of what you want to happen.
+Describe the expected result of the change
 
 **We will have confidence to proceed when**
-Add any other context or screenshots about the feature request here.
+Describe the metrics which will prove the effectiveness of the change
 
 **Following features are part of this epic**
 - [ ] First issue #1
