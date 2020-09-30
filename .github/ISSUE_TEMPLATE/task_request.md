@@ -3,7 +3,7 @@ name: Task Request
 about: Suggest a task associated with a feature
 title: ''
 labels: 'Task'
-assignees: ''
+assignees: 'namitms'
 
 ---
 
