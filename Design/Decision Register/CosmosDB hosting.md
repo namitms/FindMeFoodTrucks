@@ -6,13 +6,13 @@
 
 ## :dart: Context
 
-Azure Cosmos DB is available in two different capacity modes: provisioned throughput and serverless.
+Azure Cosmos DB is available in two different capacity modes: provisioned throughput and server less.
 
-Choosing the right model will help optimise the cost and performance
+Choosing the right model will help optimize the cost and performance
 
 ## :traffic_light: Decision
 
-The recommended approach is to use Serverless mode
+The recommended approach is to use Server less mode
 
 The decision is based on the guidance provided by Microsoft here: https://docs.microsoft.com/en-us/azure/cosmos-db/throughput-serverless 
 
