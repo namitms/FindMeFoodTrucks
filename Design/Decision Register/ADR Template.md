@@ -10,10 +10,10 @@
 
 <Description>
 
-## :trophy: Decision
+## :traffic_light: Decision
 
 <Inference>
 
-##  :traffic_light: Consequences
+## :trophy: Consequences
 
 <Impact>
