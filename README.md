@@ -13,8 +13,30 @@ The only requirement for the assignment is that it give us at least 5 food truck
 
 :link: SFGov [Dataset](https://data.sfgov.org/resource/rqzj-sfat.json)
 
-## Assumptions
-The following assumption was made to scope MVP (Minimum viable product) for the solution.
-### Key requirements
-1. Users will be able to query for food trucks proximate to a specific latitude and longitude.
-1. Users will have the ability to interact with the application using REST based APIs with JSON Payload
+# Minimum viable product
+The following assumption were made to scope the MVP (Minimum viable product) for the solution.
+## Key requirements
+
+### In-scope
+1. Users will be able to query for food trucks proximate to a specific location (latitude and longitude).
+    1. The system will return at least 5 results (location of trucks) matching the search criteria.
+1. Users will have the ability to interact with the application using REST based APIs with JSON Payload.
+    1. The access to the APIs will be secured
+
+### Out of Scope
+1. Integrating the application APIs with 3rd party identity providers
+2. Geo-redundant deployment of the solution
+3. Codifying the Infrastructure
+1. UI testing 
+1. Load testing
+1. Performance testing
+4. Disaster recovery testing 
+1. Any items described described outside the 'In-Scope' section of this document
+
+# Important links 
+* :link: [Solution Architecture](TBD)
+* :link: [Project Kanban Board](TBD)
+
+
+
+
