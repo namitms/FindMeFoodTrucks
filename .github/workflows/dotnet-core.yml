@@ -11,20 +11,33 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      working-directory: ./Implementation/Code/FindMeFoodTrucks
-      unittest-directory: ./Implementation/Code/FindMeFoodTrucks/FindMeFoodTrucks.UnitTests
+      WORKING-DIRECTORY: ./Implementation/Code/FindMeFoodTrucks
+      UNITTEST-DIRECTORY: ./Implementation/Code/FindMeFoodTrucks/FindMeFoodTrucks.UnitTests
+      AZURE_WEBAPP_NAME: findmefoodtrucks              # set this to your application's name
+      AZURE_WEBAPP_PACKAGE_PATH: './Implementation/Code/Published'      # set this to the path to your web app project, defaults to the repository root
+      NETCORE_VERSION: '3.1.101'                    # set this to the .NET Core version to use
+
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.301
+        dotnet-version: ${{ env.NETCORE_VERSION }}
     - name: Install dependencies
       run: dotnet restore
-      working-directory: ${{env.working-directory}}
+      working-directory: ${{env.WORKING-DIRECTORY}}
     - name: Build
       run: dotnet build --configuration Release --no-restore
-      working-directory: ${{env.working-directory}}
+      working-directory: ${{env.WORKING-DIRECTORY}}
     - name: Test
       run: dotnet test --no-restore --verbosity normal
-      working-directory: ${{env.unittest-directory}}
+      working-directory: ${{env.UNITTEST-DIRECTORY}}
+    - name: Publish app for deploy
+      run: dotnet publish --configuration Release --no-build --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'findmefoodtrucks'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_7655004019864206bea02a3c84b4c82f }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
