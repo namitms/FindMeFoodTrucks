@@ -34,6 +34,7 @@ jobs:
       working-directory: ${{env.UNITTEST-DIRECTORY}}
     - name: Publish app for deploy
       run: dotnet publish --configuration Release --no-build --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      working-directory: ${{env.UNITTEST-DIRECTORY}}
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
