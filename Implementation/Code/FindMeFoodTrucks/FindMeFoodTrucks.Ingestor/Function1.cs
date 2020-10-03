@@ -10,7 +10,7 @@ namespace FindMeFoodTrucks.Ingestor
         [FunctionName("Function1")]
         public static void Run([TimerTrigger("0 00 0 * * *")]TimerInfo myTimer, ILogger log)
         {
-            log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
+            log.LogInformation($"This is a demo function: {DateTime.Now}");
         }
     }
 }

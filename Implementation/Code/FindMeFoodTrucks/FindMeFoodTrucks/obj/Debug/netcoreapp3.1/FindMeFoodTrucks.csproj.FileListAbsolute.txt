@@ -17,3 +17,4 @@ C:\Users\namts\Documents\GitHub\FindMeFoodTrucks\Implementation\Code\FindMeFoodT
 C:\Users\namts\Documents\GitHub\FindMeFoodTrucks\Implementation\Code\FindMeFoodTrucks\FindMeFoodTrucks\obj\Debug\netcoreapp3.1\FindMeFoodTrucks.dll
 C:\Users\namts\Documents\GitHub\FindMeFoodTrucks\Implementation\Code\FindMeFoodTrucks\FindMeFoodTrucks\obj\Debug\netcoreapp3.1\FindMeFoodTrucks.pdb
 C:\Users\namts\Documents\GitHub\FindMeFoodTrucks\Implementation\Code\FindMeFoodTrucks\FindMeFoodTrucks\obj\Debug\netcoreapp3.1\FindMeFoodTrucks.genruntimeconfig.cache
+C:\Users\namts\Documents\GitHub\FindMeFoodTrucks\Implementation\Code\FindMeFoodTrucks\FindMeFoodTrucks\obj\Debug\netcoreapp3.1\FindMeFoodTrucks.csprojAssemblyReference.cache
