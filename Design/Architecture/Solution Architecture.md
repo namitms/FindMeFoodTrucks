@@ -14,3 +14,4 @@ The following diagram illustrates the high-level solution architecture
 * The development framework for business login and ingestor will be .net core and the programming language will be C#
 * X Unit will be used to perform Unit testing
 * Swagger will be used for API documentation
+* Azure key vault will be used as a secret store
