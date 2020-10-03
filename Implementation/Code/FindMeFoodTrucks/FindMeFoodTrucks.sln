@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FindMeFoodTrucks", "FindMeFoodTrucks\FindMeFoodTrucks.csproj", "{717481D9-9CDC-4CBA-9054-007F5CCAE5AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindMeFoodTrucks.Ingestor", "FindMeFoodTrucks.Ingestor\FindMeFoodTrucks.Ingestor.csproj", "{079406FC-D964-4B42-B612-D8D9A5CDFEC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FindMeFoodTrucks.Ingestor", "FindMeFoodTrucks.Ingestor\FindMeFoodTrucks.Ingestor.csproj", "{079406FC-D964-4B42-B612-D8D9A5CDFEC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindMeFoodTrucks.UnitTests", "FindMeFoodTrucks.UnitTests\FindMeFoodTrucks.UnitTests.csproj", "{D52D6CA2-D17A-4890-9DD9-7F36ADF0ABFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{079406FC-D964-4B42-B612-D8D9A5CDFEC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{079406FC-D964-4B42-B612-D8D9A5CDFEC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{079406FC-D964-4B42-B612-D8D9A5CDFEC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D52D6CA2-D17A-4890-9DD9-7F36ADF0ABFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D52D6CA2-D17A-4890-9DD9-7F36ADF0ABFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D52D6CA2-D17A-4890-9DD9-7F36ADF0ABFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D52D6CA2-D17A-4890-9DD9-7F36ADF0ABFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
