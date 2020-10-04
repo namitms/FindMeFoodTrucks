@@ -14,7 +14,7 @@ jobs:
       WORKING-DIRECTORY: ./Implementation/Code/FindMeFoodTrucks
       UNITTEST-DIRECTORY: ./Implementation/Code/FindMeFoodTrucks/FindMeFoodTrucks.UnitTests
       AZURE_WEBAPP_NAME: findmefoodtrucks              # set this to your application's name
-      AZURE_WEBAPP_PACKAGE_PATH: '/Implementation/Code/Published'      # set this to the path to your web app project, defaults to the repository root
+      AZURE_WEBAPP_PACKAGE_PATH: '/Published'      # set this to the path to your web app project, defaults to the repository root
       NETCORE_VERSION: '3.1.101'                    # set this to the .NET Core version to use
 
     steps:
