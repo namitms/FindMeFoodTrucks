@@ -19,7 +19,7 @@ namespace FindMeFoodTrucks.WebAPI.Helpers
             {
                 string query = "SELECT f.id , f.fooditems, f.applicant, f.address,  ST_DISTANCE(f.location, {0}) distance FROM c f WHERE ST_DISTANCE(f.location, {1}) < {2} AND f.facilitytype = 'Truck' {3}";
                 string searchSubQuery = "AND CONTAINS(UPPER(f.fooditems), UPPER('{0}'))";
-                if (!string.IsNullOrEmpty(searchString.Trim()))
+                if (searchString!=null && !string.IsNullOrEmpty(searchString.Trim()))
                 {
                     searchSubQuery = string.Format(searchSubQuery, searchString.Trim());
                 }
