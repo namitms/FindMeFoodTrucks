@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FindMeFoodTrucks.Ingestor\FindMeFoodTrucks.Ingestor.csproj" />
     <ProjectReference Include="..\FindMeFoodTrucks.WebAPI\FindMeFoodTrucks.WebAPI.csproj" />
   </ItemGroup>
 

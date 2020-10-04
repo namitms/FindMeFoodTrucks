@@ -18,7 +18,7 @@ namespace FindMeFoodTrucks.UnitTests
 {
 
     /// <summary>
-    /// APIKeyAuthenticationAttribute test project
+    /// APIKeyAuthenticationAttribute test class
     /// </summary>
     [ExcludeFromCodeCoverage]
     public class APIKeyAuthAttributeTest
