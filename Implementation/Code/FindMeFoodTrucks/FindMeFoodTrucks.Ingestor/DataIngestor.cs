@@ -15,13 +15,13 @@ namespace FindMeFoodTrucks.Ingestor
     {
         [FunctionName("DataIngestor")]
         public static void Run(
-            [TimerTrigger("0 0/5 0 ? * * *")] TimerInfo myTimer, ILogger log)
+            [TimerTrigger("0 */5 * * * *")] TimerInfo myTimer, ILogger log)
         {
             try
             {
                 log.LogInformation($"Starting scheduled task {DateTime.Now}");
                 //Set Configuration Object
-                var builder = new ConfigurationBuilder()
+                var builder = new ConfigurationBuilder() 
                     .SetBasePath(Directory.GetCurrentDirectory())
                     .AddEnvironmentVariables()
                     .AddJsonFile("./local.settings.json")
