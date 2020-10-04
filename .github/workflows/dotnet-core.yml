@@ -11,7 +11,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      WORKING-DIRECTORY: ./Implementation/Code/FindMeFoodTrucks
+      WORKING-DIRECTORY: ./Implementation/Code/FindMeFoodTrucks/
       UNITTEST-DIRECTORY: ./Implementation/Code/FindMeFoodTrucks/FindMeFoodTrucks.UnitTests
       AZURE_WEBAPP_NAME: findmefoodtrucks              # set this to your application's name
       AZURE_WEBAPP_PACKAGE_PATH: '/Implementation/Code/Published'      # set this to the path to your web app project, defaults to the repository root
@@ -34,7 +34,7 @@ jobs:
       working-directory: ${{env.UNITTEST-DIRECTORY}}
     - name: Publish app for deploy
       run: dotnet publish --configuration Release --no-build --output ${{env.DOTNET_ROOT}}/findmefoodtrucks
-      working-directory: ${{env.UNITTEST-DIRECTORY}}/FindMeFoodTrucks.WebAPI
+      working-directory: ${{env.WORKING-DIRECTORY}}/FindMeFoodTrucks.WebAPI
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
