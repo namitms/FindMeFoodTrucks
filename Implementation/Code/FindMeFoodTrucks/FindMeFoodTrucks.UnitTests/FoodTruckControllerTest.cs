@@ -7,6 +7,9 @@ using Xunit;
 
 namespace FindMeFoodTrucks.UnitTests
 {
+    /// <summary>
+    /// FoodTruckController test class
+    /// </summary>
     [ExcludeFromCodeCoverage]
     public class FoodTruckControllerTest
     {
