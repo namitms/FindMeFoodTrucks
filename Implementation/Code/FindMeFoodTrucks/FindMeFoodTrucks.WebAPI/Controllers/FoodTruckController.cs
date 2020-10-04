@@ -17,10 +17,20 @@ namespace FindMeFoodTrucks.WebAPI.Controllers
     {
         private readonly ILogger<FoodTruckController> logger;
         private readonly IConfiguration configuration;
-        public FoodTruckController(ILogger<FoodTruckController> logger, IConfiguration configuration)
+        private readonly CosmosDAL cosmosDAL;
+        public FoodTruckController(ILogger<FoodTruckController> logger, IConfiguration configuration, CosmosDAL cDAL = null)
         {
             this.logger = logger;
             this.configuration = configuration;
+            this.cosmosDAL = cDAL;
+            if (cosmosDAL == null)
+            {
+                cosmosDAL = new CosmosDAL(configuration[ConstantStrings.COSMOS_ENDPOINT_URL],
+                    configuration[ConstantStrings.COSMOS_PRIMARY_KEY],
+                    configuration[ConstantStrings.COSMOS_DATABASE_NAME],
+                    configuration[ConstantStrings.COSMOS_CONTAINER_NAME],
+                    logger);
+            }
         }
 
         [HttpGet]
@@ -30,14 +40,9 @@ namespace FindMeFoodTrucks.WebAPI.Controllers
             try
             {
                 string query = QueryHelper.CreateCosmosQuery(radius, latitide, longitude, searchString);
-                CosmosDAL dal = new CosmosDAL(configuration[ConstantStrings.COSMOS_ENDPOINT_URL],
-                    configuration[ConstantStrings.COSMOS_PRIMARY_KEY],
-                    configuration[ConstantStrings.COSMOS_DATABASE_NAME],
-                    configuration[ConstantStrings.COSMOS_CONTAINER_NAME],
-                    logger);
 
                 logger.LogInformation("FoodTruck request complete");
-                return dal.QueryData(query).Result;
+                return cosmosDAL.QueryData(query).Result;
             }
             catch
             {

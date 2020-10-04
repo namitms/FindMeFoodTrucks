@@ -1,8 +1,11 @@
-﻿namespace FindMeFoodTrucks.Ingestor.Helpers
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace FindMeFoodTrucks.Ingestor.Helpers
 {
     /// <summary>
     /// Constaint strings
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public static class ConstantStrings
     {
         public static string DATA_API_URL = "Configuration:DataAPIurl";
