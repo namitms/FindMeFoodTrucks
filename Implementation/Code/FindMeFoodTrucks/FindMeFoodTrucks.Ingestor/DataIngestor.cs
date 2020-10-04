@@ -24,7 +24,7 @@ namespace FindMeFoodTrucks.Ingestor
                 var builder = new ConfigurationBuilder() 
                     .SetBasePath(Directory.GetCurrentDirectory())
                     .AddEnvironmentVariables()
-                    .AddJsonFile("./local.settings.json")
+                    .AddJsonFile("./local.settings.json", true)
                     .Build();
 
                 //Extract URL from config
