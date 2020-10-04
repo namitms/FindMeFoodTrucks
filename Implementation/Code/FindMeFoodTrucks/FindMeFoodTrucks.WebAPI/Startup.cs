@@ -6,9 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FindMeFoodTrucks.WebAPI
 {
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         /// <summary>
@@ -25,9 +27,10 @@ namespace FindMeFoodTrucks.WebAPI
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        { 
+        {
             try
             {
+                services.AddSingleton<IConfiguration>(Configuration);
                 services.AddApplicationInsightsTelemetry();
                 services.AddScoped<APIKeyAuthAttribute>();
                 services.AddControllers();
