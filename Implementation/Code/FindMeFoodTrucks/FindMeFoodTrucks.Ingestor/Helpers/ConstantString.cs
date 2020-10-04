@@ -1,6 +1,8 @@
+
 ﻿using System.Diagnostics.CodeAnalysis;
 
 namespace FindMeFoodTrucks.Ingestor.Helpers
+
 {
     /// <summary>
     /// Constaint strings

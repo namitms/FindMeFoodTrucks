@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace FindMeFoodTruck.DAL.Cosmos
 {
     /// <summary>
@@ -65,6 +66,7 @@ namespace FindMeFoodTruck.DAL.Cosmos
 
             // Initialize logger
             this.logger = logger;
+
         }
 
         /// <summary>
@@ -82,6 +84,7 @@ namespace FindMeFoodTruck.DAL.Cosmos
                     // Read the item to see if it exists.  
                     ItemResponse<FoodFacility> ffItem = container.ReadItemAsync<FoodFacility>(curFF.id, new PartitionKey(curFF.id)).Result;
                     // If it does, update the item
+
                     logger.LogInformation($"Record found.Trying update {curFF.id}");
                     container.UpsertItemAsync<FoodFacility>(ffItem, new PartitionKey(curFF.id));
                 }
@@ -93,7 +96,7 @@ namespace FindMeFoodTruck.DAL.Cosmos
                 }
             }
         }
-
+      
         /// <summary>
         /// Queries the datastore 
         /// </summary>

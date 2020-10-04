@@ -37,6 +37,7 @@ namespace FindMeFoodTrucks.Ingestor.Helpers
         /// </summary>
         /// <param name="url">GET url</param>
         /// <returns>response string from the service</returns>
+
         public virtual async Task<string> GetResponse(string url)
         {
             try
