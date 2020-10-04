@@ -2,6 +2,8 @@
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FindMeFoodTruck.DAL.Cosmos
 {
@@ -69,6 +71,39 @@ namespace FindMeFoodTruck.DAL.Cosmos
                     ItemResponse<FoodFacility> andersenFamilyResponse = container.CreateItemAsync<FoodFacility>(curFF, new PartitionKey(curFF.id)).Result;
                 }
             }
+        }
+
+        /// <summary>
+        /// Queries the datastore 
+        /// </summary>
+        /// <param name="queryString">Datastore query</param>
+        /// <returns></returns>
+        public async Task<List<FoodFacilityResponse>> QueryData(string queryString)
+        {
+            QueryDefinition queryDefinition = new QueryDefinition(queryString);
+            FeedIterator<FoodFacility> queryResultSetIterator = this.container.GetItemQueryIterator<FoodFacility>(queryDefinition);
+
+            List<FoodFacilityResponse> foodTrucks = new List<FoodFacilityResponse>();
+
+            while (queryResultSetIterator.HasMoreResults)
+            {
+                FeedResponse<FoodFacility> currentResultSet = await queryResultSetIterator.ReadNextAsync();
+                foreach (FoodFacility ft in currentResultSet)
+                {
+                    FoodFacilityResponse curRes = new FoodFacilityResponse();
+                    curRes.id = ft.id;
+                    curRes.address = ft.address;
+                    curRes.applicant = ft.applicant;
+                    curRes.fooditems = ft.fooditems;
+                    curRes.distance = ft.distance;
+                    foodTrucks.Add(curRes);
+                }
+            }
+
+            //Reorder the records by distance
+            foodTrucks = foodTrucks.OrderBy(f => f.distance).ToList();
+
+            return foodTrucks;
         }
     }
 }

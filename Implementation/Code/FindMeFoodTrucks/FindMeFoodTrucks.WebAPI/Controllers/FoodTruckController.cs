@@ -1,7 +1,11 @@
-﻿using FindMeFoodTrucks.WebAPI.Filters;
+﻿using FindMeFoodTruck.DAL.Cosmos;
+using FindMeFoodTrucks.Models;
+using FindMeFoodTrucks.WebAPI.Filters;
+using FindMeFoodTrucks.WebAPI.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace FindMeFoodTrucks.WebAPI.Controllers
 {
@@ -11,22 +15,35 @@ namespace FindMeFoodTrucks.WebAPI.Controllers
     [ServiceFilter(typeof(APIKeyAuthAttribute))]
     public class FoodTruckController : ControllerBase
     {
-        private readonly ILogger<FoodTruckController> _logger;
-        private readonly IConfiguration _Configuration;
+        private readonly ILogger<FoodTruckController> logger;
+        private readonly IConfiguration configuration;
         public FoodTruckController(ILogger<FoodTruckController> logger, IConfiguration configuration)
         {
-            _logger = logger;
-            _Configuration = configuration;
+            this.logger = logger;
+            this.configuration = configuration;
         }
 
         [HttpGet]
-        public string Get()
+        public List<FoodFacilityResponse> Get(long radius, double longitude, double latitide, string searchString)
         {
-            _logger.LogInformation("The Get Function got called");
-            //return "bla";
+            logger.LogInformation("FoodTruck requested through Web API");
+            try
+            {
+                string query = QueryHelper.CreateCosmosQuery(radius, latitide, longitude, searchString);
+                CosmosDAL dal = new CosmosDAL(configuration[ConstantStrings.COSMOS_ENDPOINT_URL],
+                    configuration[ConstantStrings.COSMOS_PRIMARY_KEY],
+                    configuration[ConstantStrings.COSMOS_DATABASE_NAME],
+                    configuration[ConstantStrings.COSMOS_CONTAINER_NAME],
+                    logger);
 
-            return _Configuration["ApplicationInsights:InstrumentationKey"] == null ? "REsult is null" : _Configuration["ApplicationInsights:InstrumentationKey"];
-
+                logger.LogInformation("FoodTruck request complete");
+                return dal.QueryData(query).Result;
+            }
+            catch
+            {
+                logger.LogError("Encountered error during execution");
+                throw;
+            }
         }
     }
 }
