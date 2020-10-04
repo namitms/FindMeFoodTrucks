@@ -40,5 +40,5 @@ jobs:
       with:
         app-name: 'findmefoodtrucks'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_7655004019864206bea02a3c84b4c82f }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_668891054a3a4112a9a56c2ed3c882a2 }}
         package: ${{env.DOTNET_ROOT}}/findmefoodtrucks
