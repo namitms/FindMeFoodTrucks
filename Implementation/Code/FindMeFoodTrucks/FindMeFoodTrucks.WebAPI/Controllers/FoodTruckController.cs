@@ -25,7 +25,7 @@ namespace FindMeFoodTrucks.WebAPI.Controllers
             _logger.LogInformation("The Get Function got called");
             //return "bla";
 
-            return _Configuration["ApplicationInsights:InstrumentationKey"];
+            return _Configuration["ApplicationInsights:InstrumentationKey"]==null?"REsult is null": _Configuration["ApplicationInsights:InstrumentationKey"];
 
         }
     }
