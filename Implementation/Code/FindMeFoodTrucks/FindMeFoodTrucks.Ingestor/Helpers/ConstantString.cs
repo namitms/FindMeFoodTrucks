@@ -1,14 +1,19 @@
-﻿namespace FindMeFoodTrucks.Ingestor.Helpers
+
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace FindMeFoodTrucks.Ingestor.Helpers
+
 {
     /// <summary>
     /// Constaint strings
     /// </summary>
-    public class ConstantStrings
+    [ExcludeFromCodeCoverage]
+    public static class ConstantStrings
     {
-        public const string DATA_API_URL = "Configuration:DataAPIurl";
-        public const string COSMOS_ENDPOINT_URL = "Configuration:CosmosEndpoint";
-        public const string COSMOS_PRIMARY_KEY = "Configuration:CosmosKey";
-        public const string COSMOS_DATABASE_NAME = "Configuration:CosmosDBname";
-        public const string COSMOS_CONTAINER_NAME = "Configuration:CosmosContainer";
+        public static string DATA_API_URL = "Configuration:DataAPIurl";
+        public static string COSMOS_ENDPOINT_URL = "Configuration:CosmosEndpoint";
+        public static string COSMOS_PRIMARY_KEY = "Configuration:CosmosKey";
+        public static string COSMOS_DATABASE_NAME = "Configuration:CosmosDBname";
+        public static string COSMOS_CONTAINER_NAME = "Configuration:CosmosContainer";
     }
 }

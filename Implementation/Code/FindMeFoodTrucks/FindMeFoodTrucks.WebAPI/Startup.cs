@@ -33,6 +33,7 @@ namespace FindMeFoodTrucks.WebAPI
                 services.AddSingleton<IConfiguration>(Configuration);
                 services.AddApplicationInsightsTelemetry();
                 services.AddScoped<APIKeyAuthAttribute>();
+                services.AddSwaggerGen();
                 services.AddControllers();
             }
             catch (Exception e)
@@ -54,7 +55,15 @@ namespace FindMeFoodTrucks.WebAPI
                 {
                     app.UseDeveloperExceptionPage();
                 }
+                // Enable middleware to serve generated Swagger as a JSON endpoint.
+                app.UseSwagger();
 
+                // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+                // specifying the Swagger JSON endpoint.
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "FoodTruck API V1");
+                });
                 app.UseHttpsRedirection();
                 app.UseRouting();
                 app.UseAuthorization();
