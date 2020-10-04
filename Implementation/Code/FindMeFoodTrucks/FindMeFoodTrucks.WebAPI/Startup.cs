@@ -1,13 +1,21 @@
+using FindMeFoodTrucks.WebAPI.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
 
 namespace FindMeFoodTrucks.WebAPI
 {
     public class Startup
     {
+        /// <summary>
+        /// logger object
+        /// </summary>
+        private ILogger _logger;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -17,29 +25,46 @@ namespace FindMeFoodTrucks.WebAPI
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddApplicationInsightsTelemetry();
-            services.AddControllers();
+        { 
+            try
+            {
+                services.AddApplicationInsightsTelemetry();
+                services.AddScoped<APIKeyAuthAttribute>();
+                services.AddControllers();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Error configuring service", null);
+                throw;
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
-            if (env.IsDevelopment())
+            ///Initialize Logger
+            _logger = logger;
+
+            try
             {
-                app.UseDeveloperExceptionPage();
+                if (env.IsDevelopment())
+                {
+                    app.UseDeveloperExceptionPage();
+                }
+
+                app.UseHttpsRedirection();
+                app.UseRouting();
+                app.UseAuthorization();
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                });
             }
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
+            catch (Exception e)
             {
-                endpoints.MapControllers();
-            });
+                _logger.LogError(e, "Error configuring applciation", null);
+                throw;
+            }
         }
     }
 }
