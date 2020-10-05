@@ -34,8 +34,8 @@ The following assumption were made to scope the MVP (Minimum viable product) for
 1. Any items described described outside the 'In-Scope' section of this document
 
 # Important links 
-* :link: [Solution Architecture](TBD)
-* :link: [Project Kanban Board](TBD)
+* :link: [Solution Architecture](https://github.com/namitms/FindMeFoodTrucks/blob/master/Design/Architecture/Solution%20Architecture.md)
+* :link: [Project Kanban Board](https://github.com/namitms/FindMeFoodTrucks/projects/1)
 
 
 

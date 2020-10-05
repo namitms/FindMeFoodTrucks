@@ -15,9 +15,25 @@ namespace FindMeFoodTrucks.WebAPI.Controllers
     [ServiceFilter(typeof(APIKeyAuthAttribute))]
     public class FoodTruckController : ControllerBase
     {
+        /// <summary>
+        /// Logger instance
+        /// </summary>
         private readonly ILogger<FoodTruckController> logger;
+        /// <summary>
+        /// Configuration instance
+        /// </summary>
         private readonly IConfiguration configuration;
+        /// <summary>
+        /// Cosmos DAL instance
+        /// </summary>
         private readonly CosmosDAL cosmosDAL;
+
+        /// <summary>
+        /// Only constructor
+        /// </summary>
+        /// <param name="logger">logger</param>
+        /// <param name="configuration">configuration</param>
+        /// <param name="cDAL">DAL for Cosmos</param>
         public FoodTruckController(ILogger<FoodTruckController> logger, IConfiguration configuration, CosmosDAL cDAL = null)
         {
             this.logger = logger;
@@ -33,13 +49,22 @@ namespace FindMeFoodTrucks.WebAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// The get method use to search for food trucks
+        /// </summary>
+        /// <param name="radius">Radius in meters from the point where the search should be performed</param>
+        /// <param name="longitude">The longitude of the center point</param>
+        /// <param name="latitide">The latitude of the center point</param>
+        /// <param name="searchString">Search string for food preferences</param>
+        /// <returns></returns>
         [HttpGet]
         public List<FoodFacilityResponse> Get(long radius, double longitude, double latitide, string searchString)
         {
             logger.LogInformation("FoodTruck requested through Web API");
             try
             {
-                string query = QueryHelper.CreateCosmosQuery(radius, latitide, longitude, searchString);
+                //Construct query string based on teh input parameters
+                var query = QueryHelper.CreateCosmosQuery(radius, latitide, longitude, searchString);
 
                 logger.LogInformation("FoodTruck request complete");
                 return cosmosDAL.QueryData(query).Result;

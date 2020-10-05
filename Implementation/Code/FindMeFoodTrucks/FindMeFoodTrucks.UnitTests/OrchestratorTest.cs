@@ -18,8 +18,11 @@ namespace FindMeFoodTrucks.UnitTests
     [ExcludeFromCodeCoverage]
     public class OrchestratorTest
     {
+        /// <summary>
+        /// Test ingest orchestration
+        /// </summary>
         [Fact]
-        public void Get_GetTasks_NotNull()
+        public void SynchronizeData_Valid_True()
         {
             ///Arrange
 

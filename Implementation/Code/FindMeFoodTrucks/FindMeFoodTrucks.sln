@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FindMeFoodTrucks.UnitTests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FindMeFoodTrucks.WebAPI", "FindMeFoodTrucks.WebAPI\FindMeFoodTrucks.WebAPI.csproj", "{5ADCF9FC-5002-47CB-B5DE-1B18003524E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindMeFoodTrucks.Models", "FindMeFoodTrucks.Models\FindMeFoodTrucks.Models.csproj", "{A3070B7C-1375-4B11-8352-3B7A15A5D5AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FindMeFoodTrucks.Models", "FindMeFoodTrucks.Models\FindMeFoodTrucks.Models.csproj", "{A3070B7C-1375-4B11-8352-3B7A15A5D5AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindMeFoodTruck.DAL.Cosmos", "FindMeFoodTruck.DAL.Cosmos\FindMeFoodTruck.DAL.Cosmos.csproj", "{55A17DEB-A192-4761-877D-9897208C59C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FindMeFoodTruck.DAL.Cosmos", "FindMeFoodTruck.DAL.Cosmos\FindMeFoodTruck.DAL.Cosmos.csproj", "{55A17DEB-A192-4761-877D-9897208C59C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

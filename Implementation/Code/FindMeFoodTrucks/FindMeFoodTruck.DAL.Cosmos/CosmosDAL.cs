@@ -12,7 +12,7 @@ namespace FindMeFoodTruck.DAL.Cosmos
     /// <summary>
     /// DAL for Cosmos DB
     /// </summary>
-    public class CosmosDAL
+    public class CosmosDAL : ICosmosDAL
     {
         /// <summary>
         /// The Cosmos client instance
@@ -31,12 +31,26 @@ namespace FindMeFoodTruck.DAL.Cosmos
         /// </summary>
         private ILogger logger = null;
 
-
+        /// <summary>
+        /// The only constructor used by business logic
+        /// </summary>
+        /// <param name="endpointUri">endpointUri</param>
+        /// <param name="primaryKey">primaryKey</param>
+        /// <param name="dabaseName">dabaseName</param>
+        /// <param name="containerName">containerName</param>
+        /// <param name="logger">logger</param>
         public CosmosDAL(string endpointUri, string primaryKey, string dabaseName, string containerName, ILogger logger)
         {
             Initialize(endpointUri, primaryKey, dabaseName, containerName, logger);
         }
 
+        /// <summary>
+        /// MOQ constructor used for testing
+        /// </summary>
+        /// <param name="cClient">cClient</param>
+        /// <param name="cDB">cDB</param>
+        /// <param name="cCon">cCon</param>
+        /// <param name="log">log</param>
         public CosmosDAL(CosmosClient cClient, Database cDB, Container cCon, ILogger log)
         {
             // Create a new instance of the Cosmos Client
@@ -52,6 +66,14 @@ namespace FindMeFoodTruck.DAL.Cosmos
             this.logger = log;
         }
 
+        /// <summary>
+        /// Initialize the database objects
+        /// </summary>
+        /// <param name="endpointUri">endpointUri</param>
+        /// <param name="primaryKey">primaryKey</param>
+        /// <param name="dabaseName">dabaseName</param>
+        /// <param name="containerName">containerName</param>
+        /// <param name="logger">logger</param>
         [ExcludeFromCodeCoverage]
         private void Initialize(string endpointUri, string primaryKey, string dabaseName, string containerName, ILogger logger)
         {
@@ -74,54 +96,48 @@ namespace FindMeFoodTruck.DAL.Cosmos
         /// </summary>
         /// <param name="foodFacilities">list of food facilities</param>
         /// <returns></returns>
-        public virtual void WriteData(List<FoodFacility> foodFacilities)
+        public virtual async Task WriteData(List<FoodFacility> foodFacilities)
         {
+            //For every food facility in the list
             foreach (var curFF in foodFacilities)
             {
                 try
                 {
+                    // Build Location object and populat id field
                     curFF.TransformData();
                     // Read the item to see if it exists.  
-                    ItemResponse<FoodFacility> ffItem = container.ReadItemAsync<FoodFacility>(curFF.id, new PartitionKey(curFF.id)).Result;
-                    // If it does, update the item
+                    ItemResponse<FoodFacility> ffItem = await container.ReadItemAsync<FoodFacility>(curFF.id, new PartitionKey(curFF.id));
 
                     logger.LogInformation($"Record found.Trying update {curFF.id}");
-                    container.UpsertItemAsync<FoodFacility>(ffItem, new PartitionKey(curFF.id));
+
+                    // Try update as the item already exist
+                    await container.UpsertItemAsync<FoodFacility>(ffItem, new PartitionKey(curFF.id));
                 }
                 catch
                 {
                     logger.LogInformation($"Record not found.Trying insert {curFF.id}");
                     // If the item does not exist, create a new one
-                    ItemResponse<FoodFacility> andersenFamilyResponse = container.CreateItemAsync<FoodFacility>(curFF, new PartitionKey(curFF.id)).Result;
+                    ItemResponse<FoodFacility> andersenFamilyResponse = await container.CreateItemAsync<FoodFacility>(curFF, new PartitionKey(curFF.id));
                 }
             }
         }
-      
+
         /// <summary>
         /// Queries the datastore 
         /// </summary>
-        /// <param name="queryString">Datastore query</param>
+        /// <param name="queryDefinition">Datastore query</param>
         /// <returns></returns>
-        public virtual async Task<List<FoodFacilityResponse>> QueryData(string queryString)
+        public virtual async Task<List<FoodFacilityResponse>> QueryData(QueryDefinition queryDefinition)
         {
-            QueryDefinition queryDefinition = new QueryDefinition(queryString);
-            FeedIterator<FoodFacility> queryResultSetIterator = this.container.GetItemQueryIterator<FoodFacility>(queryDefinition);
-
+            // Retrieve records based on the query
+            FeedIterator<FoodFacilityResponse> queryResultSetIterator = this.container.GetItemQueryIterator<FoodFacilityResponse>(queryDefinition);
+            var boo = queryDefinition.ToString();
             List<FoodFacilityResponse> foodTrucks = new List<FoodFacilityResponse>();
 
             while (queryResultSetIterator != null && queryResultSetIterator.HasMoreResults)
             {
-                FeedResponse<FoodFacility> currentResultSet = await queryResultSetIterator.ReadNextAsync();
-                foreach (FoodFacility ft in currentResultSet)
-                {
-                    FoodFacilityResponse curRes = new FoodFacilityResponse();
-                    curRes.id = ft.id;
-                    curRes.address = ft.address;
-                    curRes.applicant = ft.applicant;
-                    curRes.fooditems = ft.fooditems;
-                    curRes.distance = ft.distance;
-                    foodTrucks.Add(curRes);
-                }
+                FeedResponse<FoodFacilityResponse> currentResultSet = await queryResultSetIterator.ReadNextAsync();
+                foodTrucks = currentResultSet.ToList<FoodFacilityResponse>();
             }
 
             //Reorder the records by distance

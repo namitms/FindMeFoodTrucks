@@ -179,7 +179,7 @@ namespace FindMeFoodTrucks.UnitTests
         /// Exception flow. Null Service provider
         /// </summary>
         [Fact]
-        public async void OnActionExecutionAsync_Authorize_ThorwException()
+        public async System.Threading.Tasks.Task OnActionExecutionAsync_Authorize_ThorwException()
         {
             ///Arrange
             const string NAME = "name";
@@ -212,17 +212,11 @@ namespace FindMeFoodTrucks.UnitTests
             );
             var mockAEDelegate = new Mock<ActionExecutionDelegate>();
 
-            try
-            {
-                ///Act 
-                await tskController.OnActionExecutionAsync(actionExecutingContext, mockAEDelegate.Object);
-                Assert.False(true);
-            }
-            catch (Exception e)
-            {
-                ///Assert
-                Assert.Equal(typeof(ArgumentNullException), e.GetType());
-            }
+
+            ///Act and Assert
+
+            await Assert.ThrowsAsync<ArgumentNullException>(() => tskController.OnActionExecutionAsync(actionExecutingContext, mockAEDelegate.Object));
+
         }
     }
 }

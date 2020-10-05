@@ -9,12 +9,20 @@ using System.IO;
 
 namespace FindMeFoodTrucks.Ingestor
 {
+    /// <summary>
+    /// Azure function scheduled to run every 12 hours for data ingestion from the SF Web API
+    /// </summary>
     [ExcludeFromCodeCoverage]
     public static class DataIngestor
     {
+        /// <summary>
+        /// The only Run method of the function
+        /// </summary>
+        /// <param name="myTimer">Timer preset to 12 hours</param>
+        /// <param name="log">Logger</param>
         [FunctionName("DataIngestor")]
         public static void Run(
-            [TimerTrigger("0 0 */2 * * *")] TimerInfo myTimer, ILogger log)
+            [TimerTrigger("0 0 */12 * * *")] TimerInfo myTimer, ILogger log)
         {
             try
             {
@@ -47,7 +55,7 @@ namespace FindMeFoodTrucks.Ingestor
             }
             catch (Exception e)
             {
-                log.LogError($"There was an error executing the task : {e.Message}");
+                log.LogError(e, $"There was an error executing the task");
                 throw;
             }
         }

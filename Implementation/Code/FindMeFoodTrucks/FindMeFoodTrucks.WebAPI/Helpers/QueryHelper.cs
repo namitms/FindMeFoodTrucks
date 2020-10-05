@@ -1,4 +1,5 @@
 ﻿using FindMeFoodTrucks.Models;
+using Microsoft.Azure.Cosmos;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace FindMeFoodTrucks.WebAPI.Helpers
     /// </summary>
     public static class QueryHelper
     {
-        public static string CreateCosmosQuery(long radious, double latitude, double longitude, string searchString)
+        public static QueryDefinition CreateCosmosQuery(long radious, double latitude, double longitude, string searchString)
         {
             if (longitude <= 180 &&
                 longitude >= -180 &&
@@ -19,7 +20,7 @@ namespace FindMeFoodTrucks.WebAPI.Helpers
             {
                 string query = "SELECT f.id , f.fooditems, f.applicant, f.address,  ST_DISTANCE(f.location, {0}) distance FROM c f WHERE ST_DISTANCE(f.location, {1}) < {2} AND f.facilitytype = 'Truck' {3}";
                 string searchSubQuery = "AND CONTAINS(UPPER(f.fooditems), UPPER('{0}'))";
-                if (searchString!=null && !string.IsNullOrEmpty(searchString.Trim()))
+                if (searchString != null && !string.IsNullOrEmpty(searchString.Trim()))
                 {
                     searchSubQuery = string.Format(searchSubQuery, searchString.Trim());
                 }
@@ -33,7 +34,8 @@ namespace FindMeFoodTrucks.WebAPI.Helpers
                 loc.coordinates.Add(longitude);
                 loc.coordinates.Add(latitude);
                 query = string.Format(query, JsonConvert.SerializeObject(loc), JsonConvert.SerializeObject(loc), radious.ToString(), searchSubQuery);
-                return query;
+                QueryDefinition qd = new QueryDefinition(query);
+                return qd;
             }
             else
             {
