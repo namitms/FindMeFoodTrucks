@@ -5,6 +5,7 @@ using FindMeFoodTrucks.WebAPI.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 
 namespace FindMeFoodTrucks.WebAPI.Controllers
@@ -69,10 +70,10 @@ namespace FindMeFoodTrucks.WebAPI.Controllers
                 logger.LogInformation("FoodTruck request complete");
                 return cosmosDAL.QueryData(query).Result;
             }
-            catch
+            catch(Exception e)
             {
-                logger.LogError("Encountered error during execution");
-                throw;
+                logger.LogError(e,"Encountered error during execution");
+                throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.BadRequest);
             }
         }
     }
