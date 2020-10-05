@@ -54,17 +54,17 @@ namespace FindMeFoodTrucks.WebAPI.Controllers
         /// </summary>
         /// <param name="radius">Radius in meters from the point where the search should be performed</param>
         /// <param name="longitude">The longitude of the center point</param>
-        /// <param name="latitide">The latitude of the center point</param>
+        /// <param name="latitude">The latitude of the center point</param>
         /// <param name="searchString">Search string for food preferences</param>
         /// <returns></returns>
         [HttpGet]
-        public List<FoodFacilityResponse> Get(long radius, double longitude, double latitide, string searchString)
+        public List<FoodFacilityResponse> Get(long radius, double longitude, double latitude, string searchString)
         {
             logger.LogInformation("FoodTruck requested through Web API");
             try
             {
                 //Construct query string based on teh input parameters
-                var query = QueryHelper.CreateCosmosQuery(radius, latitide, longitude, searchString);
+                var query = QueryHelper.CreateCosmosQuery(radius, latitude, longitude, searchString);
 
                 logger.LogInformation("FoodTruck request complete");
                 return cosmosDAL.QueryData(query).Result;
