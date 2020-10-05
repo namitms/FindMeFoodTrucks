@@ -27,6 +27,7 @@ namespace FindMeFoodTrucks.Ingestor.Helpers
         public WebRequestHelper(ILogger logger, HttpClient httpClient = null)
         {
             this.logger = logger;
+            //Will be null except for test runs
             if (httpClient == null)
             {
                 client = new HttpClient();
@@ -37,11 +38,11 @@ namespace FindMeFoodTrucks.Ingestor.Helpers
         /// </summary>
         /// <param name="url">GET url</param>
         /// <returns>response string from the service</returns>
-
         public virtual async Task<string> GetResponse(string url)
         {
             try
             {
+                //HTTP Get call to the Web API
                 var stringTask = client.GetStringAsync(url);
                 //Await for response
                 var response = await stringTask;

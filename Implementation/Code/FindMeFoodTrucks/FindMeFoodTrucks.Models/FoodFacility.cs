@@ -51,32 +51,4 @@ namespace FindMeFoodTrucks.Models
         }
     }
 
-    /// <summary>
-    /// Model for a record from mobile food facility data store
-    /// </summary>
-    [Serializable]
-    [ExcludeFromCodeCoverage]
-    public class FoodFacilityResponse
-    {
-        public string id { get; set; }
-        public string applicant { get; set; }
-        public string address { get; set; }
-        public string fooditems { get; set; }
-        public double distance { get; set; }
-    }
-
-    /// <summary>
-    /// Map for Location data type in Cosmos
-    /// </summary>
-    [Serializable]
-    [ExcludeFromCodeCoverage]
-    public class Location
-    {
-        /// <summary>
-        /// Const string for cosmos point
-        /// </summary>
-        private const string POINT = "Point";
-        public string type = POINT;
-        public List<double> coordinates { get; set; }
-    }
 }

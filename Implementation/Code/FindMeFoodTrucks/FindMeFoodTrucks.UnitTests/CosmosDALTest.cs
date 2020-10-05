@@ -12,25 +12,28 @@ using Xunit;
 
 namespace FindMeFoodTrucks.UnitTests
 {
+    /// <summary>
+    /// Query test
+    /// </summary>
     [ExcludeFromCodeCoverage]
     public class CosmosDALTest
     {
 
         [Fact]
-        public void Get_QueryData_ValidResults()
+        public void QueryData_ValidResults_True()
         {
             ///Arrange
             const string QUERY = "Test Query";
             var mockCon = new Mock<Container>();
-            var myItems = new List<FoodFacility>();
+            var myItems = new List<FoodFacilityResponse>();
 
-            var item = new FoodFacility();
+            var item = new FoodFacilityResponse();
             myItems.Add(item);
 
-            var feedResponseMock = new Mock<FeedResponse<FoodFacility>>();
+            var feedResponseMock = new Mock<FeedResponse<FoodFacilityResponse>>();
             feedResponseMock.Setup(x => x.GetEnumerator()).Returns(myItems.GetEnumerator());
 
-            var feedIteratorMock = new Mock<FeedIterator<FoodFacility>>();
+            var feedIteratorMock = new Mock<FeedIterator<FoodFacilityResponse>>();
             feedIteratorMock.Setup(f => f.HasMoreResults).Returns(true);
             feedIteratorMock
                 .Setup(f => f.ReadNextAsync(It.IsAny<CancellationToken>()))
@@ -38,19 +41,22 @@ namespace FindMeFoodTrucks.UnitTests
                 .Callback(() => feedIteratorMock
                     .Setup(f => f.HasMoreResults)
                     .Returns(false));
-
-            mockCon.Setup(c => c.GetItemQueryIterator<FoodFacility>(It.IsAny<QueryDefinition>(), It.IsAny<string>(), It.IsAny<QueryRequestOptions>())).Returns(feedIteratorMock.Object);
+            var qd = new QueryDefinition(QUERY);
+            mockCon.Setup(c => c.GetItemQueryIterator<FoodFacilityResponse>(It.IsAny<QueryDefinition>(), It.IsAny<string>(), It.IsAny<QueryRequestOptions>())).Returns(feedIteratorMock.Object);
 
             ///Act 
             CosmosDAL cDAL = new CosmosDAL(null, null, mockCon.Object, null);
-            var result = cDAL.QueryData(QUERY).Result;
+            var result = cDAL.QueryData(qd).Result;
 
             ///Assert
             Assert.Equal(myItems.Count, result.Count);
         }
 
+        /// <summary>
+        /// Update record test
+        /// </summary>
         [Fact]
-        public void Get_WriteData_Update()
+        public void WriteData_Update_True()
         {
             ///Arrange
             var mockCon = new Mock<Container>();
@@ -72,7 +78,7 @@ namespace FindMeFoodTrucks.UnitTests
             {
                 ///Act 
                 CosmosDAL cDAL = new CosmosDAL(null, null, mockCon.Object, mockLogger.Object);
-                cDAL.WriteData(myItems);
+                cDAL.WriteData(myItems).Wait();
             }
             catch
             {
@@ -81,8 +87,11 @@ namespace FindMeFoodTrucks.UnitTests
             }
         }
 
+        /// <summary>
+        /// Insert record test
+        /// </summary>
         [Fact]
-        public void Get_WriteData_Insert()
+        public void WriteData_Insert_True()
         {
             ///Arrange
             var mockCon = new Mock<Container>();
@@ -104,7 +113,7 @@ namespace FindMeFoodTrucks.UnitTests
             {
                 ///Act 
                 CosmosDAL cDAL = new CosmosDAL(null, null, mockCon.Object, mockLogger.Object);
-                cDAL.WriteData(myItems);
+                cDAL.WriteData(myItems).Wait();
             }
             catch
             {
