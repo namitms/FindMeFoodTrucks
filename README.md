@@ -1,6 +1,6 @@
 # FindMeFoodTrucks
 
-|![Image](/Images/logo.png)| Web APIs to find a food truck proximate to a location. </br></br> Hosted at: [Find a Food Truck Web APIs ](https://findmefoodtrucks.azurewebsites.net/swagger/index.html)|
+|![Image](/Images/Logo.png)| Web APIs to find a food truck proximate to a location. </br></br> Hosted at: [Find a Food Truck Web APIs ](https://findmefoodtrucks.azurewebsites.net/swagger/index.html)|
 | --------  | ------------------- |
 
 
