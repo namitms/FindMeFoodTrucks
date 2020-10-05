@@ -15,3 +15,5 @@ The following diagram illustrates the high-level solution architecture
 * X Unit will be used to perform Unit testing
 * Swagger will be used for API documentation
 * Azure key vault will be used as a secret store
+* Azure app Gateway will be used to implement the Web Application Firewall
+* Azure Virtual Network will be used to achieve the network isolation

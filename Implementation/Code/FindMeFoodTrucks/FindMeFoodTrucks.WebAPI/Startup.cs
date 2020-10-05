@@ -5,8 +5,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Reflection;
 
 namespace FindMeFoodTrucks.WebAPI
 {
@@ -33,7 +36,11 @@ namespace FindMeFoodTrucks.WebAPI
                 services.AddSingleton<IConfiguration>(Configuration);
                 services.AddApplicationInsightsTelemetry();
                 services.AddScoped<APIKeyAuthAttribute>();
-                services.AddSwaggerGen();
+                services.AddSwaggerGen(options =>
+                {
+                    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Find a Food Truck", Version = "v1" });
+                    options.OperationFilter<CustomHeaderSwaggerAttribute>();
+                });
                 services.AddControllers();
             }
             catch (Exception e)

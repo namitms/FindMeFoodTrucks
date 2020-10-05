@@ -1,4 +1,9 @@
 # FindMeFoodTrucks
+
+|![Image](/Images/logo.png)| Web APIs to find a food truck proximate to a location. </br></br> Hosted at: [Find a Food Truck Web APIs ](https://findmefoodtrucks.azurewebsites.net/swagger/index.html)|
+| --------  | ------------------- |
+
+
 ## The Problem
 
 Our San Francisco team loves to eat. They are also a team that loves variety, so they also like to discover new places to eat.
@@ -32,6 +37,30 @@ The following assumption were made to scope the MVP (Minimum viable product) for
 1. Performance testing
 4. Disaster recovery testing 
 1. Any items described described outside the 'In-Scope' section of this document
+
+## Implementation
+The services for finding the food truck is hosted as public Web APIs on Microsoft Azure. The API takes the following parameters as input:
+* Longitude - The search location's longitude 
+    * Datatype : Double
+    * Range : 180 to -180
+    * e.g. : -122.39
+* Latitude - The search location's latitude
+    * Datatype : Double
+    * Range : 180 to -180
+    * e.g. : 37.787
+* Radius - The radius in meters to perform the search from the search location's coordinates
+    * Datatype : Long
+    * Range : 1 to 10000(soft limit)
+    * e.g. : 37.787
+* Search String - A free form search search string
+    * Datatype : String
+    * Range : 0 to 100 characters (soft limit)
+    * e.g. : Chicken or Mexican
+
+### Authentication
+The service implements APIKey authentication. The service expects a API key to be passed as a parameter in the request header.
+
+e.g. APIKey:MyKey
 
 # Important links 
 * :link: [Solution Architecture](https://github.com/namitms/FindMeFoodTrucks/blob/master/Design/Architecture/Solution%20Architecture.md)

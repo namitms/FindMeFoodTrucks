@@ -6,3 +6,4 @@
 1. Azure App Gateway and Azure API management layers are not introduced
 1. Infrastructure provisioning (Infrastructure as Code) is not implemented
 1. Integration tests are not included in the test suite
+1. Boundary checking for parameters and enriching responses with relevant error codes are not implemented yet. 
