@@ -27,7 +27,7 @@ namespace FindMeFoodTrucks.UnitTests
             ///Arrange
 
             var mockConfig = new Mock<IConfiguration>();
-            var mockCDAL = new Mock<CosmosDAL>(new object[] { null, null, null, null });
+            var mockCDAL = new Mock<CosmosDAL>(new object[] { null, null, null });
             var myItems = new List<FoodFacility>();
             var mockLogger = new Mock<ILogger>();
             var mockWebHelper = new Mock<WebRequestHelper>(new object[] { mockLogger.Object, null });
@@ -42,17 +42,13 @@ namespace FindMeFoodTrucks.UnitTests
             mockWebHelper.Setup(m => m.GetResponse(It.IsAny<string>())).Returns(Task.FromResult(JsonConvert.SerializeObject(myItems)));
             mockCDAL.Setup(m => m.WriteData(It.IsAny<List<FoodFacility>>()));
 
-            try
-            {
-                ///Act 
-                Orchestrator orc = new Orchestrator();
-                orc.SynchronizeData(mockWebHelper.Object, mockCDAL.Object, mockConfig.Object, mockLogger.Object);
-            }
-            catch
-            {
-                ///Assert
-                Assert.True(false);
-            }
+            ///Act 
+            Orchestrator orc = new Orchestrator();
+            var res = orc.SynchronizeData(mockWebHelper.Object, mockCDAL.Object, mockConfig.Object, mockLogger.Object);
+
+            ///Assert
+            Assert.NotNull(res);
+
         }
     }
 }

@@ -26,10 +26,6 @@ namespace FindMeFoodTruck.DAL.Cosmos
         /// The container we will create.
         /// </summary>
         private Container container;
-        /// <summary>
-        /// Logging Object
-        /// </summary>
-        private ILogger logger = null;
 
         /// <summary>
         /// The only constructor used by business logic
@@ -39,9 +35,9 @@ namespace FindMeFoodTruck.DAL.Cosmos
         /// <param name="dabaseName">dabaseName</param>
         /// <param name="containerName">containerName</param>
         /// <param name="logger">logger</param>
-        public CosmosDAL(string endpointUri, string primaryKey, string dabaseName, string containerName, ILogger logger)
+        public CosmosDAL(string endpointUri, string primaryKey, string dabaseName, string containerName)
         {
-            Initialize(endpointUri, primaryKey, dabaseName, containerName, logger);
+            Initialize(endpointUri, primaryKey, dabaseName, containerName);
         }
 
         /// <summary>
@@ -51,7 +47,7 @@ namespace FindMeFoodTruck.DAL.Cosmos
         /// <param name="cDB">cDB</param>
         /// <param name="cCon">cCon</param>
         /// <param name="log">log</param>
-        public CosmosDAL(CosmosClient cClient, Database cDB, Container cCon, ILogger log)
+        public CosmosDAL(CosmosClient cClient, Database cDB, Container cCon)
         {
             // Create a new instance of the Cosmos Client
             this.cosmosClient = cClient;
@@ -61,9 +57,6 @@ namespace FindMeFoodTruck.DAL.Cosmos
 
             // Create a new container by the name or get an existing one
             this.container = cCon;
-
-            // Initialize logger
-            this.logger = log;
         }
 
         /// <summary>
@@ -75,7 +68,7 @@ namespace FindMeFoodTruck.DAL.Cosmos
         /// <param name="containerName">containerName</param>
         /// <param name="logger">logger</param>
         [ExcludeFromCodeCoverage]
-        private void Initialize(string endpointUri, string primaryKey, string dabaseName, string containerName, ILogger logger)
+        private void Initialize(string endpointUri, string primaryKey, string dabaseName, string containerName)
         {
             // Create a new instance of the Cosmos Client
             this.cosmosClient = new CosmosClient(endpointUri, primaryKey);
@@ -85,9 +78,6 @@ namespace FindMeFoodTruck.DAL.Cosmos
 
             // Create a new container by the name or get an existing one
             this.container = this.database.CreateContainerIfNotExistsAsync(containerName, "/id").Result;
-
-            // Initialize logger
-            this.logger = logger;
 
         }
 
@@ -108,14 +98,11 @@ namespace FindMeFoodTruck.DAL.Cosmos
                     // Read the item to see if it exists.  
                     ItemResponse<FoodFacility> ffItem = await container.ReadItemAsync<FoodFacility>(curFF.id, new PartitionKey(curFF.id));
 
-                    logger.LogInformation($"Record found.Trying update {curFF.id}");
-
                     // Try update as the item already exist
                     await container.UpsertItemAsync<FoodFacility>(ffItem, new PartitionKey(curFF.id));
                 }
                 catch
                 {
-                    logger.LogInformation($"Record not found.Trying insert {curFF.id}");
                     // If the item does not exist, create a new one
                     ItemResponse<FoodFacility> andersenFamilyResponse = await container.CreateItemAsync<FoodFacility>(curFF, new PartitionKey(curFF.id));
                 }

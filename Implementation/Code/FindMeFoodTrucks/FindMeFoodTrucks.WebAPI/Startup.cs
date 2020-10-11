@@ -1,4 +1,6 @@
+using FindMeFoodTruck.DAL.Cosmos;
 using FindMeFoodTrucks.WebAPI.Filters;
+using FindMeFoodTrucks.WebAPI.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -36,12 +38,17 @@ namespace FindMeFoodTrucks.WebAPI
                 services.AddSingleton<IConfiguration>(Configuration);
                 services.AddApplicationInsightsTelemetry();
                 services.AddScoped<APIKeyAuthAttribute>();
+                services.AddSingleton<ICosmosDAL>(new CosmosDAL(Configuration[ConstantStrings.COSMOS_ENDPOINT_URL],
+                    Configuration[ConstantStrings.COSMOS_PRIMARY_KEY],
+                    Configuration[ConstantStrings.COSMOS_DATABASE_NAME],
+                    Configuration[ConstantStrings.COSMOS_CONTAINER_NAME]));
                 services.AddSwaggerGen(options =>
                 {
                     options.SwaggerDoc("v1", new OpenApiInfo { Title = "Find a Food Truck", Version = "v1" });
                     options.OperationFilter<CustomHeaderSwaggerAttribute>();
                 });
                 services.AddControllers();
+                services.AddMvc(c => c.Conventions.Add(new ApiExplorerIgnores()));
             }
             catch (Exception e)
             {
@@ -61,7 +68,13 @@ namespace FindMeFoodTrucks.WebAPI
                 if (env.IsDevelopment())
                 {
                     app.UseDeveloperExceptionPage();
+                    app.UseExceptionHandler("/error-local-development");
                 }
+                else
+                {
+                    app.UseExceptionHandler("/error");
+                }
+
                 // Enable middleware to serve generated Swagger as a JSON endpoint.
                 app.UseSwagger();
 

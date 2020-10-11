@@ -21,7 +21,7 @@ namespace FindMeFoodTrucks.Ingestor
         /// <param name="myTimer">Timer preset to 12 hours</param>
         /// <param name="log">Logger</param>
         [FunctionName("DataIngestor")]
-        public static void Run(
+        public static async void Run(
             [TimerTrigger("0 0 */12 * * *")] TimerInfo myTimer, ILogger log)
         {
             try
@@ -42,14 +42,13 @@ namespace FindMeFoodTrucks.Ingestor
                 CosmosDAL cDAL = new CosmosDAL(config[ConstantStrings.COSMOS_ENDPOINT_URL],
                     config[ConstantStrings.COSMOS_PRIMARY_KEY],
                     config[ConstantStrings.COSMOS_DATABASE_NAME],
-                    config[ConstantStrings.COSMOS_CONTAINER_NAME],
-                    log);
+                    config[ConstantStrings.COSMOS_CONTAINER_NAME]);
 
                 //Instantiate Orchestrator
                 Orchestrator orc = new Orchestrator();
 
                 //Perform synchronization
-                orc.SynchronizeData(wHelper, cDAL, config, log);
+                await orc.SynchronizeData(wHelper, cDAL, config, log);
 
                 log.LogInformation($"Completed scheduled task {DateTime.Now}");
             }

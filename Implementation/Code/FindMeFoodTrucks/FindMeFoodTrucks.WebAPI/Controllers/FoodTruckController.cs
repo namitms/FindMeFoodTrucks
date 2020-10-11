@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FindMeFoodTrucks.WebAPI.Controllers
 {
@@ -27,7 +28,7 @@ namespace FindMeFoodTrucks.WebAPI.Controllers
         /// <summary>
         /// Cosmos DAL instance
         /// </summary>
-        private readonly CosmosDAL cosmosDAL;
+        private readonly ICosmosDAL cosmosDAL;
 
         /// <summary>
         /// Only constructor
@@ -35,19 +36,11 @@ namespace FindMeFoodTrucks.WebAPI.Controllers
         /// <param name="logger">logger</param>
         /// <param name="configuration">configuration</param>
         /// <param name="cDAL">DAL for Cosmos</param>
-        public FoodTruckController(ILogger<FoodTruckController> logger, IConfiguration configuration, CosmosDAL cDAL = null)
+        public FoodTruckController(ILogger<FoodTruckController> logger, IConfiguration configuration, ICosmosDAL cDAL)
         {
             this.logger = logger;
             this.configuration = configuration;
             this.cosmosDAL = cDAL;
-            if (cosmosDAL == null)
-            {
-                cosmosDAL = new CosmosDAL(configuration[ConstantStrings.COSMOS_ENDPOINT_URL],
-                    configuration[ConstantStrings.COSMOS_PRIMARY_KEY],
-                    configuration[ConstantStrings.COSMOS_DATABASE_NAME],
-                    configuration[ConstantStrings.COSMOS_CONTAINER_NAME],
-                    logger);
-            }
         }
 
         /// <summary>
@@ -59,7 +52,7 @@ namespace FindMeFoodTrucks.WebAPI.Controllers
         /// <param name="searchString">Search string for food preferences</param>
         /// <returns></returns>
         [HttpGet]
-        public List<FoodFacilityResponse> Get(long radius, double longitude, double latitude, string searchString)
+        public async Task<List<FoodFacilityResponse>> Get(long radius, double longitude, double latitude, string searchString)
         {
             logger.LogInformation("FoodTruck requested through Web API");
             try
@@ -68,12 +61,12 @@ namespace FindMeFoodTrucks.WebAPI.Controllers
                 var query = QueryHelper.CreateCosmosQuery(radius, latitude, longitude, searchString);
 
                 logger.LogInformation("FoodTruck request complete");
-                return cosmosDAL.QueryData(query).Result;
+                return await cosmosDAL.QueryData(query);
             }
             catch(Exception e)
             {
-                logger.LogError(e,"Encountered error during execution");
-                throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.BadRequest);
+                logger.LogError(e, "Encountered error during execution");
+                throw;
             }
         }
     }

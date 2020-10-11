@@ -45,7 +45,7 @@ namespace FindMeFoodTrucks.UnitTests
             mockCon.Setup(c => c.GetItemQueryIterator<FoodFacilityResponse>(It.IsAny<QueryDefinition>(), It.IsAny<string>(), It.IsAny<QueryRequestOptions>())).Returns(feedIteratorMock.Object);
 
             ///Act 
-            CosmosDAL cDAL = new CosmosDAL(null, null, mockCon.Object, null);
+            CosmosDAL cDAL = new CosmosDAL(null, null, mockCon.Object);
             var result = cDAL.QueryData(qd).Result;
 
             ///Assert
@@ -77,7 +77,7 @@ namespace FindMeFoodTrucks.UnitTests
             try
             {
                 ///Act 
-                CosmosDAL cDAL = new CosmosDAL(null, null, mockCon.Object, mockLogger.Object);
+                CosmosDAL cDAL = new CosmosDAL(null, null, mockCon.Object);
                 cDAL.WriteData(myItems).Wait();
             }
             catch
@@ -112,7 +112,7 @@ namespace FindMeFoodTrucks.UnitTests
             try
             {
                 ///Act 
-                CosmosDAL cDAL = new CosmosDAL(null, null, mockCon.Object, mockLogger.Object);
+                CosmosDAL cDAL = new CosmosDAL(null, null, mockCon.Object);
                 cDAL.WriteData(myItems).Wait();
             }
             catch

@@ -23,18 +23,19 @@ namespace FindMeFoodTrucks.UnitTests
         /// Null Exception test
         /// </summary>
         [Fact]
-        public void Get_FoodTrucks_ThorwArgumentNullException()
+        public void Get_FoodTrucks_ThorwNullReferenceException()
         {
             ///Arrange
             var mockLogger = new Mock<ILogger<FoodTruckController>>();
             var mockConfig = new Mock<IConfiguration>();
+            string search = string.Empty;
             long rad = 0;
             double lat = 0;
             double lon = 0;
-            string search = string.Empty;
+            FoodTruckController ftController = new FoodTruckController(mockLogger.Object, mockConfig.Object, null);
 
             ///Act and Assert
-            Assert.Throws<ArgumentNullException>(() => new FoodTruckController(mockLogger.Object, mockConfig.Object, null));
+            Assert.Throws<NullReferenceException>(() => ftController.Get(rad, lon, lat, search));
         }
 
         /// <summary>
@@ -46,7 +47,7 @@ namespace FindMeFoodTrucks.UnitTests
             ///Arrange
             var mockLogger = new Mock<ILogger<FoodTruckController>>();
             var mockConfig = new Mock<IConfiguration>();
-            var mockCDAL = new Mock<CosmosDAL>(new object[] { null, null, null, null });
+            var mockCDAL = new Mock<CosmosDAL>(new object[] { null, null, null });
             var response = new List<FoodFacilityResponse>();
             mockCDAL.Setup(c => c.QueryData(It.IsAny<QueryDefinition>())).Returns(Task.FromResult(response));
             FoodTruckController ftController = new FoodTruckController(mockLogger.Object, mockConfig.Object, mockCDAL.Object);
@@ -69,7 +70,7 @@ namespace FindMeFoodTrucks.UnitTests
             ///Arrange
             var mockLogger = new Mock<ILogger<FoodTruckController>>();
             var mockConfig = new Mock<IConfiguration>();
-            var mockCDAL = new Mock<CosmosDAL>(new object[] { null, null, null, null });
+            var mockCDAL = new Mock<CosmosDAL>(new object[] { null, null, null });
             var response = new List<FoodFacilityResponse>();
             mockCDAL.Setup(c => c.QueryData(It.IsAny<QueryDefinition>())).Returns(Task.FromResult(response));
             FoodTruckController ftController = new FoodTruckController(mockLogger.Object, mockConfig.Object, mockCDAL.Object);
@@ -94,7 +95,7 @@ namespace FindMeFoodTrucks.UnitTests
             ///Arrange
             var mockLogger = new Mock<ILogger<FoodTruckController>>();
             var mockConfig = new Mock<IConfiguration>();
-            var mockCDAL = new Mock<CosmosDAL>(new object[] { null, null, null, null });
+            var mockCDAL = new Mock<CosmosDAL>(new object[] { null, null, null });
             var response = new List<FoodFacilityResponse>();
             mockCDAL.Setup(c => c.QueryData(It.IsAny<QueryDefinition>())).Returns(Task.FromResult(response));
             FoodTruckController ftController = new FoodTruckController(mockLogger.Object, mockConfig.Object, mockCDAL.Object);
