@@ -35,7 +35,7 @@ namespace FindMeFoodTrucks.UnitTests
             FoodTruckController ftController = new FoodTruckController(mockLogger.Object, mockConfig.Object, null);
 
             ///Act and Assert
-            Assert.Throws<NullReferenceException>(() => ftController.Get(rad, lon, lat, search));
+            Assert.ThrowsAsync<NullReferenceException>(() => ftController.Get(rad, lon, lat, search));
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace FindMeFoodTrucks.UnitTests
 
 
             ///Act and Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => ftController.Get(rad, lon, lat, search));
+            Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => ftController.Get(rad, lon, lat, search));
         }
 
         /// <summary>
