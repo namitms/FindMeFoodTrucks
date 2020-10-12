@@ -38,11 +38,17 @@ namespace FindMeFoodTrucks.UnitTests
             Assert.ThrowsAsync<NullReferenceException>(() => ftController.Get(rad, lon, lat, search));
         }
 
+
         /// <summary>
         /// Out of range Exception test
         /// </summary>
-        [Fact]
-        public void Get_FoodTrucks_ThorwArgumentOutOfRangeException()
+        [Theory]
+        [InlineData(0, 181, 0)]
+        [InlineData(0, -181, 0)]
+        [InlineData(91, 0, 0)]
+        [InlineData(-91, 0, 0)]
+        [InlineData(91, 0, -1)]
+        public void Get_FoodTrucks_ThorwArgumentOutOfRangeException(double lat, double  lon, long rad)
         {
             ///Arrange
             var mockLogger = new Mock<ILogger<FoodTruckController>>();
@@ -51,9 +57,6 @@ namespace FindMeFoodTrucks.UnitTests
             var response = new List<FoodFacilityResponse>();
             mockCDAL.Setup(c => c.QueryData(It.IsAny<QueryDefinition>())).Returns(Task.FromResult(response));
             FoodTruckController ftController = new FoodTruckController(mockLogger.Object, mockConfig.Object, mockCDAL.Object);
-            long rad = 0;
-            double lat = 200;
-            double lon = 0;
             string search = string.Empty;
 
 
