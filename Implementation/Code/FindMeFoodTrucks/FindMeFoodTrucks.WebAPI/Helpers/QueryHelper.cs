@@ -11,15 +11,15 @@ namespace FindMeFoodTrucks.WebAPI.Helpers
     /// </summary>
     public static class QueryHelper
     {
-        public static QueryDefinition CreateCosmosQuery(long radious, double latitude, double longitude, string searchString)
+        public static QueryDefinition CreateCosmosQuery(long radius, double latitude, double longitude, string searchString)
         {
             if (longitude <= 180 &&
                 longitude >= -180 &&
                 latitude <= 90 &&
                 latitude >= -90)
             {
-                string query = "SELECT f.id , f.fooditems, f.applicant, f.address,  ST_DISTANCE(f.location, {0}) distance FROM c f WHERE ST_DISTANCE(f.location, {1}) < {2} AND f.facilitytype = 'Truck' {3}";
-                string searchSubQuery = "AND CONTAINS(UPPER(f.fooditems), UPPER('{0}'))";
+                string query = "SELECT f.id , f.fooditems, f.applicant, f.address,  ST_DISTANCE(f.location, @location) distance FROM c f WHERE ST_DISTANCE(f.location, {1}) < @radius AND f.facilitytype = 'Truck' {2}";
+                string searchSubQuery = "AND CONTAINS(UPPER(f.fooditems), UPPER(@searchstring))";
                 if (searchString != null && !string.IsNullOrEmpty(searchString.Trim()))
                 {
                     searchSubQuery = string.Format(searchSubQuery, searchString.Trim());
@@ -33,8 +33,11 @@ namespace FindMeFoodTrucks.WebAPI.Helpers
                 loc.coordinates = new List<double>();
                 loc.coordinates.Add(longitude);
                 loc.coordinates.Add(latitude);
-                query = string.Format(query, JsonConvert.SerializeObject(loc), JsonConvert.SerializeObject(loc), radious.ToString(), searchSubQuery);
-                QueryDefinition qd = new QueryDefinition(query);
+                var locString = JsonConvert.SerializeObject(loc);
+                query = string.Format(query, locString, locString, searchSubQuery);
+                QueryDefinition qd = new QueryDefinition(query)
+                                         .WithParameter("@searchstring", searchString)
+                                         .WithParameter("@radius", radius);
                 return qd;
             }
             else
