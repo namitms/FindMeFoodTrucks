@@ -54,7 +54,7 @@ namespace FindMeFoodTrucks.UnitTests
             var result =  ftController.Get();
 
             ///Assert
-            Assert.Equal(result,true);
+            Assert.Equal(true,result);
         }
 
 
