@@ -38,6 +38,25 @@ namespace FindMeFoodTrucks.UnitTests
             Assert.ThrowsAsync<NullReferenceException>(() => ftController.Get(rad, lon, lat, search));
         }
 
+        /// <summary>
+        /// Test heartbeat endpoint
+        /// </summary>
+        [Fact]
+        public void Get_FoodTrucks_Heartbeat_Alive()
+        {
+            ///Arrange
+            var mockLogger = new Mock<ILogger<FoodTruckController>>();
+            var mockConfig = new Mock<IConfiguration>();
+            var mockCDAL = new Mock<CosmosDAL>(new object[] { null, null, null });
+            FoodTruckController ftController = new FoodTruckController(mockLogger.Object, mockConfig.Object, mockCDAL.Object);
+
+            ///Act
+            var result =  ftController.Get();
+
+            ///Assert
+            Assert.Equal(result,true);
+        }
+
 
         /// <summary>
         /// Out of range Exception test
