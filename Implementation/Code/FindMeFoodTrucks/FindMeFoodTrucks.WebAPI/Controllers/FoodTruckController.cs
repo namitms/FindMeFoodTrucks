@@ -75,7 +75,7 @@ namespace FindMeFoodTrucks.WebAPI.Controllers
         /// </summary>
         /// <returns>True always</returns>
         [HttpGet]
-        [Route("/HeartBeat")]
+        [Route("HeartBeat")]
         public bool Get()
         {
             return true;
