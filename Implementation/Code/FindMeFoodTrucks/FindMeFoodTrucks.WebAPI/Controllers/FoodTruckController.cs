@@ -69,5 +69,16 @@ namespace FindMeFoodTrucks.WebAPI.Controllers
                 throw;
             }
         }
+
+        /// <summary>
+        /// Heartbeat for monitoring
+        /// </summary>
+        /// <returns>True always</returns>
+        [HttpGet]
+        [Route("api/[controller]/HeartBeat")]
+        public bool Get()
+        {
+            return true
+        }
     }
 }
