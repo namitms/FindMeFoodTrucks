@@ -53,8 +53,6 @@ func Search(rad int64, lon float64, lat float64, searchstring string, apikey str
         log.Fatalf("error reading HTTP response body: %v", err)
     }
 
-    //Log response
-    log.Println("We got the response:", string(responseBytes))
     response := string(responseBytes)
     
     //Return response
