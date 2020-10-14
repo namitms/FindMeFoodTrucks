@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Diagnostics;
+﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace FindMeFoodTrucks.WebAPI.Controllers
 {
@@ -24,9 +21,7 @@ namespace FindMeFoodTrucks.WebAPI.Controllers
 
             var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
 
-            return Problem(
-                detail: context.Error.StackTrace,
-                title: context.Error.Message);
+            return Problem(detail: context.Error.StackTrace, title: context.Error.Message);
         }
 
         [Route("/error")]

@@ -63,7 +63,7 @@ namespace FindMeFoodTrucks.WebAPI.Controllers
                 logger.LogInformation("FoodTruck request complete");
                 return await cosmosDAL.QueryData(query);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 logger.LogError(e, "Encountered error during execution");
                 throw;

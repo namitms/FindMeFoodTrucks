@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FindMeFoodTrucks.WebAPI.Filters
 {
+    [ExcludeFromCodeCoverage]
     public class ApiExplorerIgnores : IActionModelConvention
     {
         public void Apply(ActionModel action)

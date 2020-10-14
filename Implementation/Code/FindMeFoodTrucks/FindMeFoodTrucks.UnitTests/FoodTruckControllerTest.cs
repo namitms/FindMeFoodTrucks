@@ -51,7 +51,7 @@ namespace FindMeFoodTrucks.UnitTests
             FoodTruckController ftController = new FoodTruckController(mockLogger.Object, mockConfig.Object, mockCDAL.Object);
 
             ///Act
-            var result =  ftController.Get();
+            var result = ftController.Get();
 
             ///Assert
             Assert.True(result);
@@ -67,7 +67,7 @@ namespace FindMeFoodTrucks.UnitTests
         [InlineData(91, 0, 0)]
         [InlineData(-91, 0, 0)]
         [InlineData(91, 0, -1)]
-        public void Get_FoodTrucks_ThorwArgumentOutOfRangeException(double lat, double  lon, long rad)
+        public void Get_FoodTrucks_ThorwArgumentOutOfRangeException(double lat, double lon, long rad)
         {
             ///Arrange
             var mockLogger = new Mock<ILogger<FoodTruckController>>();

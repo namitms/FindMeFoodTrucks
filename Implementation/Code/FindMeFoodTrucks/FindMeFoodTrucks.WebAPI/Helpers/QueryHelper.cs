@@ -32,8 +32,8 @@ namespace FindMeFoodTrucks.WebAPI.Helpers
             if (longitude <= 180 &&
                 longitude >= -180 &&
                 latitude <= 90 &&
-                latitude >= -90 && 
-                radius >=0 )
+                latitude >= -90 &&
+                radius >= 0)
             {
                 string searchSubquery = string.Empty;
                 if (searchString != null && !string.IsNullOrEmpty(searchString.Trim()))
